@@ -43,6 +43,15 @@ Shader "Hidden/GI"
             int _MaxSteps;
             int _NumRays;
             sampler2D _BlueNoise;
+            int _AccumulationFrames;
+            
+            float random(inout uint state)
+            {
+                state = state * 747796405u + 2891336453u;
+                uint result = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+                result = (result >> 22u) ^ result;
+                return result / 4294967296.0;
+            }
 
             fixed4 frag (v2f i) : SV_Target
             {
@@ -57,7 +66,12 @@ Shader "Hidden/GI"
                     //const int maxSteps = 4;
                     float eps = _JumpFlood_TexelSize.x * 2;
 
-                    float noise = tex2D(_BlueNoise, i.uv + _Time.x * float2(1, 1)).r;
+                    //init rng
+                    uint2 pixCoords = i.uv * _ScreenParams.xy;
+                    uint pixIndex = pixCoords.y * _ScreenParams.x + pixCoords.x;
+                    uint rngState = pixIndex + _AccumulationFrames * 719393;
+                    //float noise = tex2D(_BlueNoise, i.uv + frac(_Time.x) * float2(0, 0)).r;
+                    float noise = random(rngState);
 
                     float4 radiance = 0;
                     for(int rayIndex = 0; rayIndex < _NumRays; rayIndex++)

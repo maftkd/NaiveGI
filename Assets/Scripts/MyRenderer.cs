@@ -11,6 +11,8 @@ public class MyRenderer : MonoBehaviour
     private Material _mat;
 
     private RenderTexture _history;
+    
+    public DrawingUtility drawingUtility;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,12 @@ public class MyRenderer : MonoBehaviour
         Shader.SetGlobalTexture("_History", _history);
     }
 
+    public void ClearHistory()
+    {
+        drawingUtility.ClearRT(_history);
+        
+    }
+
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         if (_mat == null)
@@ -30,9 +38,11 @@ public class MyRenderer : MonoBehaviour
         }
         
         RenderTexture tmp = RenderTexture.GetTemporary(src.width, src.height, 0, _history.format);
+        
         Graphics.Blit(src, tmp, _mat);
         Graphics.Blit(tmp, _history);
-        //Graphics.Blit(src, dest, _mat);
         Graphics.Blit(_history, dest);
+        
+        RenderTexture.ReleaseTemporary(tmp);
     }
 }

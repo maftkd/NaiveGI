@@ -17,7 +17,8 @@ public class GI : MonoBehaviour
     [Range(1, 32)]
     public int maxSteps;
 
-    public Texture2D blueNoise;
+    //public Texture2D blueNoise;
+    private int _accumulationFrames;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,7 @@ public class GI : MonoBehaviour
         _gi.wrapMode = TextureWrapMode.Clamp;
         Shader.SetGlobalTexture("_GI", _gi);
         
-        Shader.SetGlobalTexture("_BlueNoise", blueNoise);
+        //Shader.SetGlobalTexture("_BlueNoise", blueNoise);
     }
 
     // Update is called once per frame
@@ -38,7 +39,9 @@ public class GI : MonoBehaviour
         }
         _mat.SetInt("_NumRays", numRays);
         _mat.SetInt("_MaxSteps", maxSteps);
+        _mat.SetInt("_AccumulationFrames", _accumulationFrames);
         
         Graphics.Blit(null, _gi, _mat);
+        _accumulationFrames++;
     }
 }

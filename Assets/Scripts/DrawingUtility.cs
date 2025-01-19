@@ -52,6 +52,11 @@ public class DrawingUtility : MonoBehaviour
         Graphics.Blit(null, _scene, _clearMat);
     }
 
+    public void ClearRT(RenderTexture rt)
+    {
+        Graphics.Blit(null, rt, _clearMat);
+    }
+
     void DrawPoint(Vector2 pos)
     {
         //Vector2 mousePos = Input.mousePosition;
