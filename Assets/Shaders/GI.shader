@@ -40,8 +40,9 @@ Shader "Hidden/GI"
             sampler2D _Scene;
             sampler2D _JumpFlood;
             float4 _JumpFlood_TexelSize;
-            uniform int _MaxSteps;
-            uniform int _NumRays;
+            int _MaxSteps;
+            int _NumRays;
+            sampler2D _BlueNoise;
 
             fixed4 frag (v2f i) : SV_Target
             {
@@ -56,10 +57,12 @@ Shader "Hidden/GI"
                     //const int maxSteps = 4;
                     float eps = _JumpFlood_TexelSize.x;
 
+                    float noise = tex2D(_BlueNoise, i.uv).r;
+
                     float4 radiance = 0;
                     for(int rayIndex = 0; rayIndex < _NumRays; rayIndex++)
                     {
-                        float angle = (rayIndex / float(_NumRays)) * UNITY_TWO_PI;
+                        float angle = (rayIndex / float(_NumRays) + noise) * UNITY_TWO_PI;
                         float2 dir = float2(cos(angle), sin(angle));
                         
                         float2 curPos = i.uv;
