@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class DrawingUtility : MonoBehaviour
 {
     private RenderTexture _scene;
+    public RenderTexture Scene => _scene;
 
+    public Shader clearShader;
     private Material _clearMat;
 
     public Shader blitCircle;
@@ -28,9 +30,9 @@ public class DrawingUtility : MonoBehaviour
         _scene.wrapMode = TextureWrapMode.Clamp;
         Shader.SetGlobalTexture("_Scene", _scene);
         
-        Shader unlitColor = Shader.Find("Unlit/Color");
-        _clearMat = new Material(unlitColor);
-        _clearMat.color = Color.black;
+        //Shader unlitColor = Shader.Find("Unlit/Color");
+        _clearMat = new Material(clearShader);
+        //_clearMat.color = new Color(0, 0, 0, 0);
         ClearScene();
         
         _drawMat = new Material(blitCircle);
