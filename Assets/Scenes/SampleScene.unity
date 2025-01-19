@@ -262,6 +262,7 @@ MonoBehaviour:
   numRays: 16
   maxSteps: 16
   blueNoise: {fileID: 2800000, guid: 34125c7307f824d508936935dc397f98, type: 3}
+  noiseScale: 10
 --- !u!4 &113521143
 Transform:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ Shader "Hidden/GI"
             int _NumRays;
             sampler2D _BlueNoise;
             int _AccumulationFrames;
+            float _NoiseScale;
             
             float random(inout uint state)
             {
@@ -70,13 +71,15 @@ Shader "Hidden/GI"
                     uint2 pixCoords = i.uv * _ScreenParams.xy;
                     uint pixIndex = pixCoords.y * _ScreenParams.x + pixCoords.x;
                     uint rngState = pixIndex + _AccumulationFrames * 719393;
-                    //float noise = tex2D(_BlueNoise, i.uv + frac(_Time.x) * float2(0, 0)).r;
-                    float noise = random(rngState);
+                    //float4 noise4 = tex2D(_BlueNoise, i.uv);
+                    //float noise = lerp(noise4.r, noise4.g, frac(_Time.w));
+                    float noise = tex2D(_BlueNoise, i.uv + frac(_Time.y) * float2(1,1));
+                    //float noise = random(rngState);
 
                     float4 radiance = 0;
                     for(int rayIndex = 0; rayIndex < _NumRays; rayIndex++)
                     {
-                        float angle = (rayIndex / float(_NumRays) + noise) * UNITY_TWO_PI;
+                        float angle = (rayIndex / float(_NumRays) + noise * _NoiseScale) * UNITY_TWO_PI;
                         float2 dir = float2(cos(angle), sin(angle));
                         
                         float2 curPos = i.uv;
