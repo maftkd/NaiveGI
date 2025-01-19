@@ -45,7 +45,7 @@ public class DrawingUtility : MonoBehaviour
         }
     }
 
-    void ClearScene()
+    public void ClearScene()
     {
         Graphics.Blit(null, _scene, _clearMat);
     }
