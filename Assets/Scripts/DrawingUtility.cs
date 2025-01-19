@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DrawingUtility : MonoBehaviour
 {
@@ -18,6 +17,8 @@ public class DrawingUtility : MonoBehaviour
     
     private bool _drewLastFrame;
     private Vector3 _prevMousePos;
+
+    public GameObject buttonParent;
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,15 @@ public class DrawingUtility : MonoBehaviour
         ClearScene();
         
         _drawMat = new Material(blitCircle);
+        
+        Button[] colorButtons = buttonParent.GetComponentsInChildren<Button>();
+        foreach (Button button in colorButtons)
+        {
+            button.onClick.AddListener(() =>
+            {
+                curColor = button.GetComponent<RawImage>().color;
+            });
+        }
     }
 
     void ClearScene()
