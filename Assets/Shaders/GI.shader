@@ -55,9 +55,9 @@ Shader "Hidden/GI"
                 else
                 {
                     //const int maxSteps = 4;
-                    float eps = _JumpFlood_TexelSize.x;
+                    float eps = _JumpFlood_TexelSize.x * 2;
 
-                    float noise = tex2D(_BlueNoise, i.uv).r;
+                    float noise = tex2D(_BlueNoise, i.uv + _Time.x * float2(1, 1)).r;
 
                     float4 radiance = 0;
                     for(int rayIndex = 0; rayIndex < _NumRays; rayIndex++)

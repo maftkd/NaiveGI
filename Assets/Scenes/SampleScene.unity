@@ -259,8 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawingUtility: {fileID: 485975930}
   shader: {fileID: 4800000, guid: 79340d4c06b764fb6b31e4559e3680ee, type: 3}
-  numRays: 32
-  maxSteps: 8
+  numRays: 16
+  maxSteps: 16
   blueNoise: {fileID: 2800000, guid: 34125c7307f824d508936935dc397f98, type: 3}
 --- !u!4 &113521143
 Transform:
