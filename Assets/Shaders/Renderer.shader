@@ -41,13 +41,16 @@ Shader "Hidden/Renderer"
             sampler2D _Scene;
             sampler2D _JumpFlood;
             sampler2D _GI;
+            sampler2D _History;
 
             fixed4 frag (v2f i) : SV_Target
             {
                 //fixed4 col = tex2D(_Scene, i.uv);
                 //fixed4 col = tex2D(_JumpFlood, i.uv);
-                fixed4 col = tex2D(_GI, i.uv);
-                return col;
+                //fixed4 col = tex2D(_GI, i.uv);
+                fixed4 curCol = tex2D(_GI, i.uv);
+                fixed4 history = tex2D(_History, i.uv);
+                return lerp(curCol, history, 0.9);
             }
             ENDCG
         }
